@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-# pushing to heroku may cause an error if we dont specify ruby version which is used in heroku. Check 
-
+# pushing to heroku may cause an error if we don't specify ruby version which is used by heroku. Check it by "heroku version" command
+ruby '2.2.1'
 gem 'rails', '4.2.4'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
