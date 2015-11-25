@@ -1,0 +1,26 @@
+<p>
+  <h1><%= render "shared/page_title", title: @recipe.name %></h1>
+</p>
+
+<div class="row">
+  <div class="col-md-4 pull-right center">
+    <%= gravatar_for @recipe.chef, size: 200 %>
+    <P>
+      <h5>Brought to you by: <%= @recipe.chef.chefname %></h5>
+    </P>
+  </div>
+  
+  <div class="col-md-8">
+    <%= link_to "Edit this recipe", edit_recipe_path(@recipe), class: "btn btn-success pull-right" %>
+    <h3><%= @recipe.summary %></h3>
+    <div class="well">
+      <p>
+        <strong>Steps:</strong>
+      </p>
+      <!-- multiple lines in our description appear as one line in Recipe Page. We will use SIMPLE_FORMAT method
+      <%= simple_format(@recipe.description) %>
+    </div>
+  </div>
+</div>
+<!-- Here we wanto a button redirecrs us to Recipes list. We will use the prefix name of the path with "_PATH" method. To get that prefix, run the command: "RAKE ROUTES" -->
+<h5><%= link_to "Return to Recipes Listing", recipes_path, class:"btn btn-warning btn-small" %></h5>

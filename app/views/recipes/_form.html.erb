@@ -1,0 +1,20 @@
+<!-- This is a partial file of error messages. We have to pass "@RECIPE" argument to the parameter "OBJ" to recieve the error in this partial file-->
+<%= render "shared/errors", obj: @recipe %>
+
+<div class="row">
+ <div class="well col-md-8 col-md-offset-2">
+  <!-- We are going to use a helper (FORM_FOR) create a form -->
+  <%= form_for @recipe do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.label :summary %>
+  <%= f.text_field :summary %>
+  <%= f.label :description %>
+  <!-- Here we cam put inline html property -->
+  <%= f.text_area :description , rows:10 %>
+  <!-- Since the form is used for Editing form and Creating recipe form, we have to change "submission button" name based on the view. We will use "_RECORD" method with ternary operator.
+  This method checks if "@RCIPE.NEW" is true, give "Create recipe" name to the submission button, but if not give "Edit recipe" title name for submission button. -->
+  <%= f.submit(@recipe.new_record? ? 'Create Recipe' : 'Edit Recipe', class: "btn btn-success") %>
+  <% end %>
+  </div> 
+</div>

@@ -25,6 +25,8 @@ end
 #we want to make specific gems to be used for testing enviroment & development enviroment. So we'll make a group for them.
 group :development, :test do
   gem 'sqlite3'
+  #We use this gem to show the passed parameters when a link is clicked. Just type "BINDING.PRY" inside the action you want to test. NOTE: this will put you server on halt then in 
+  #in the console type "PARAMS" to see the passed parameters
   gem 'pry'
 end
 

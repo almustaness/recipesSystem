@@ -7,7 +7,9 @@ class RecipeTest < ActiveSupport::TestCase
   def setup
     #This should not be local variable. We we should make it available to tests
     @chef = Chef.create(chefname:"bob",email:"bob@example.com")
-    @recipe = @chef.recipes.build(name: "Chicken meal", summary: "This is the summary of this recipe that you should follow",
+    #As we have an associations between Chefs & Recipes, here we let the recipe to be assigned with Chef-ID
+    #Even we used create method here, this record just goes to the Sand Box. It will not be stored in the Database
+    @recipe = @chef.recipes.create(name: "Chicken meal", summary: "This is the summary of this recipe that you should follow",
     description: "This is the description of this recipe that descripes it")
   end
 

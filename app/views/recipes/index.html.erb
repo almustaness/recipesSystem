@@ -1,0 +1,35 @@
+<!-- This is the view for the action "INDEX" which came from "RecipesController" -->
+<!-- All views for "RecipesController" must be put inside "RECIPES" folder then each view will have its own file. The name of this folder derived from Controller's Name -->
+<!-- The extension of view file shoulb be "HTML.ERB" which means embedded ruby in an HTML file -->
+<%= render "shared/page_title", title:"All Recipes" %>
+<!-- @RECIPES is called from RECIPES CONTROLLER -->
+<!-- Do not use "=" in ruby opening tag in the loop -->
+<% @recipes.each do |recipe| %>
+
+<div class="row">
+  
+  <div class="col-md-2">
+    
+    <section class="chef_info center">
+      <!-- Here we created a method(GRAVATAR_FOR). We will define it for our project inside "APPLICATION_HELPR" -->
+      <!--This method receives 2 arguments (CHEF, SIZE) passed to it -->
+      <%= gravatar_for recipe.chef, size:100 %>
+      <h5>Chef name: <%= recipe.chef.chefname %></h5>
+      
+    </section>
+  </div>
+  
+  <div class="col-lg-8 well">
+   <!-- Here we want each recipe to be linked to its own page. To do that we use the method "RECIPE_PATH(OBJECT)". The object of the recipe we get it from the loop's iterator which is "RECIPE" in our loop. -->
+   <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
+   <p><%= recipe.summary %></p>
+   <P>
+     <!-- we need the date to appear with user-friendly format. So we will use a method (time_ago_in_words) -->
+     <span class="quiet"><small><%= time_ago_in_words(recipe.created_at) %></small></span>
+   </P>
+  </div>
+  
+</div>
+<hr/>
+
+<% end %>
