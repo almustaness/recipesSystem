@@ -2,6 +2,7 @@ class Chef < ActiveRecord::Base
   #In this line we create a relationship one-to-many between Chefs & Recipes
   #Chef in a single object which has plural objects. So "recipes" is written in plural. Let us see how it is written in Recipe Model
   has_many :recipes
+  has_many :likes
   #This statment is used to make email downcase before it is stored in the database
   before_save {self.email = email.downcase}
   #We use reqular expression to check email format posted by the user. So we will store this regular expression in a variable and then we call that variable 

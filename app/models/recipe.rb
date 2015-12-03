@@ -5,6 +5,7 @@ class Recipe < ActiveRecord::Base
     #In this line we create a relationship one-to-many between Recipes & Chefs
     #Recipe is a single object which belongs to a single object (Chef). So "chef" is written as singular. Let us see how it is written in Chef Model
     belongs_to :chef
+    has_many :likes
     # Recipe's name must be inserted and its length should be between 5 and 105
     validates :name, presence: true, length: {minimum:5, maximum: 105}
     validates :summary, presence: true, length: {minimum:10, maximum: 150}
@@ -13,7 +14,22 @@ class Recipe < ActiveRecord::Base
     mount_uploader :picture, PictureUploader
     #We'll use a method to validate the picture size in the sever-side
     validate :picture_size
-    #And here is the definition of this method
+    
+    #Here we want to calculate thumbs up using this method. Also you can calculate anything using "WHERE" and the "FIELD NAME with VALUE"
+    def thumbs_up_total
+      # "SELF" is the passed "@RECIPE"
+      self.likes.where(like: true).size
+    end
+     #Here we want to calculate thumbs down using this method
+    def thumbs_down_total
+      self.likes.where(like: false).size
+    end
+    
+    #By default we want all recipes to be ordered by LAST UPDATE TIME. So we need to define a DEFAULT SCOPE
+    # We'll specify descendant order ":DESC"
+    default_scope -> {order(updated_at: :desc)}
+    
+    #And here is the definition of this method for picture size
     private
      def picture_size
          if picture.size > 5.megabytes

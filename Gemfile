@@ -14,6 +14,9 @@ gem 'bootstrap-sass', '~> 3.3.1'
 gem 'sprockets', '~> 3.4'
 gem 'carrierwave' , '~> 0.10.0'
 gem 'mini_magick' , '~> 3.8.0'
+#We'll use these 2 gems for pagination
+gem 'will_paginate', '~> 3.0.7'
+gem 'bootstrap-will_paginate', '~>0.0.10'
 
 group :development, :test do
   gem 'byebug'

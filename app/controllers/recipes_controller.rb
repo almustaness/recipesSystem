@@ -4,7 +4,9 @@ class RecipesController < ApplicationController
   #We define index action here
   def index
     #We want to retrieve data from the database and pass these data to the "INDEX VIEW". We'll do using this variable
-    @recipes = Recipe.all
+    #We will sort all recipes based on the thumb-up counter. We must use "REVERSE" method because by default sorting starts from the lowest value.
+    #Here the badsic code is "@recipes = Recipe.all". But we will use "PAGINATION" gem to list recipes in multiple pages.
+    @recipes = Recipe.paginate(page: params[:page], per_page: 1)
   end
   
   def show
@@ -49,6 +51,22 @@ class RecipesController < ApplicationController
     else
       render :edit
     end
+  end
+  
+  def like
+    #We want to know to which recipe we'll send LIKE/DISLILKE. So we'll find it by the sent parameter of ID
+    @recipe = Recipe.find(params[:id])
+    #We want to create like for the parameter the user he selected. TRUE/FALSE of "LIKE" in the table can be found by the "LIKE" parameter from URL
+    like = Like.create(like: params[:like], chef: Chef.first, recipe: @recipe)
+    if like.valid?
+     flash[:success] = "Your selection was successful"
+     #We want to redirect the user in the same directory he is currently in
+     redirect_to :back
+    else
+     flash[:danger] = "You can only like/dislike a recipe once"
+     redirect_to :back
+    end
+
   end
   
   #PRIVATE METHODS are available only inside this class (Controller Class)

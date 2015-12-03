@@ -22,6 +22,18 @@
       </p>
       <!-- multiple lines in our description appear as one line in Recipe Page. We will use SIMPLE_FORMAT method -->
       <%= simple_format(@recipe.description) %>
+      <div class="pull-right">
+        <!-- We have created a custom path in routes. We link it here. Note: You have to specifiy the method "POST" because by default is is "GET" -->
+        <!-- We need to pass "@RECIPE" to send the like/deslike to that recipe. Also since both LIKE & Dislike buttons have same path, we musth differentiate between them by passing TRUE/False patameters -->
+        <!-- we can test the passed params in the action "LIKE" by "BINDING.PRY" -->
+        <%= link_to like_recipe_path(@recipe, like: true), method: :post do %>
+        <i class="glyphicon glyphicon-thumbs-up"></i> &nbsp <%= @recipe.thumbs_up_total %>
+        <% end %>
+        &nbsp&nbsp&nbsp&nbsp <!-- This is 4 spaces in HTML -->
+        <%= link_to like_recipe_path(@recipe, like: false), method: :post do %>
+        <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp <%= @recipe.thumbs_down_total %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

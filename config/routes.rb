@@ -21,5 +21,10 @@ Rails.application.routes.draw do
 
   root 'pages#home'
   #All the above routes of recipes can be created using one line like this (RESOURCES :RECIPES)
-  resources :recipes
+  #Now we'll build a new route for "LIKES" in recipes. so we'll change the "RESOURCES" structure using "DO & MEMBER"
+  resources :recipes do
+    member do
+      post 'like'
+    end
+  end
 end
