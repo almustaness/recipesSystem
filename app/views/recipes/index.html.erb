@@ -19,7 +19,7 @@
     </section>
   </div>
   
-  <div class="col-lg-8 well">
+  <div class="col-lg-6 well">
    <!-- Here we want each recipe to be linked to its own page. To do that we use the method "RECIPE_PATH(OBJECT)". The object of the recipe we get it from the loop's iterator which is "RECIPE" in our loop. -->
    <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
    <p><%= recipe.summary %></p>
@@ -27,6 +27,9 @@
      <!-- we need the date to appear with user-friendly format. So we will use a method (time_ago_in_words) -->
      <span class="quiet"><small><%= time_ago_in_words(recipe.created_at) %></small></span>
    </P>
+  </div>
+  <div class="col-md-4">
+    <%= image_tag(recipe.picture.url, size:"250x150", class: "gravatar") if recipe.picture? %>
   </div>
   
 </div>

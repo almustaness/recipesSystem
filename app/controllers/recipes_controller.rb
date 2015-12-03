@@ -54,7 +54,7 @@ class RecipesController < ApplicationController
   #PRIVATE METHODS are available only inside this class (Controller Class)
   private
     def recipe_params
-      params.require(:recipe).permit(:name, :summary, :description)
+      params.require(:recipe).permit(:name, :summary, :description, :picture)
     end
       
   
