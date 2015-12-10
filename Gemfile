@@ -17,7 +17,8 @@ gem 'mini_magick' , '~> 3.8.0'
 #We'll use these 2 gems for pagination
 gem 'will_paginate', '~> 3.0.7'
 gem 'bootstrap-will_paginate', '~>0.0.10'
-
+# This gem is for authentication
+gem 'bcrypt', '3.1.7'
 group :development, :test do
   gem 'byebug'
 end

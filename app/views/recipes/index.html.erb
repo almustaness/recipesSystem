@@ -2,6 +2,18 @@
 <!-- All views for "RecipesController" must be put inside "RECIPES" folder then each view will have its own file. The name of this folder derived from Controller's Name -->
 <!-- The extension of view file shoulb be "HTML.ERB" which means embedded ruby in an HTML file -->
 <%= render "shared/page_title", title:"All Recipes" %>
+
+
+<ul class="nav nav-tabs">
+  <li class="Active">
+    <%= link_to "Recipes", recipes_path %>
+  </li>
+  <li>
+    <%= link_to "Chefs", chefs_path %>
+  </li>
+</ul>
+
+
 <!-- @RECIPES is called from RECIPES CONTROLLER -->
 <!-- Do not use "=" in ruby opening tag in the loop -->
 <!-- This is for pagination related to "PGINATION GEM". -->
@@ -15,7 +27,7 @@
     <section class="chef_info center">
       <!-- Here we created a method(GRAVATAR_FOR). We will define it for our project inside "APPLICATION_HELPR" -->
       <!--This method receives 2 arguments (CHEF, SIZE) passed to it -->
-      <%= gravatar_for recipe.chef, size:100 %>
+      <%= link_to (gravatar_for recipe.chef, size:100), chef_path(recipe.chef) %>
       <h5>Chef name: <%= recipe.chef.chefname %></h5>
       
     </section>

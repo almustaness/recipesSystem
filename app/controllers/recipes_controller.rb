@@ -1,5 +1,10 @@
 #The name of the file of this controller is named with undescore. But the class of this controller should be Camel Case.
 class RecipesController < ApplicationController
+  before_action :set_recipe, only: [:edit, :show, :like, :update]
+  before_action :require_same_user, only: [:edit, :update]
+  #We want to restrict the user from performing any information manipulation if he is not logged in. But we want to allow him to see the content of our system.
+  #REQUIRE_USER method will be defined in APPLICATION CONTROLLER since we will need to use it in other conrollers.
+  before_action :require_user, except: [:index, :show]
   
   #We define index action here
   def index
@@ -11,7 +16,7 @@ class RecipesController < ApplicationController
   
   def show
     #We want to to show a recipe based on the URL inserted by the user.
-    @recipe = Recipe.find(params[:id])
+    #before action
   end
   
   #The NEW action need CREATE actions
@@ -24,7 +29,7 @@ class RecipesController < ApplicationController
    #Rails 4 forces us to use STRONG PARAMETERS to white list which submitted parameters should be accepted for security reasons. We'll do it by creating a private method down. 
    @recipe = Recipe.new(recipe_params)
    #We need to insert CHEF ID as we did not define in RECIPE_PARAMS method and it is required inside white list. 
-   @recipe.chef = Chef.find(1)
+   @recipe.chef = current_user
    if @recipe.save
      #To show a flash message
      flash[:success] = "Your recipe was created successfully!"
@@ -37,15 +42,15 @@ class RecipesController < ApplicationController
   end
   
   def edit
-    @recipe = Recipe.find(params[:id])
+    #before action
   end
   
   #Edit action reuires UPDATE ACTION
   def update
-    @recipe = Recipe.find(params[:id])
+    #before action
     #Also in update we need to include the whitelisted fields
     if @recipe.update(recipe_params)
-      flash[:success] = "Your recipe wa updated successfully"
+      flash[:success] = "Your recipe was updated successfully"
       #We want to redirect the user to the updated recipe. So we have to provide the object @recipe in the path method
       redirect_to recipe_path(@recipe)
     else
@@ -55,9 +60,9 @@ class RecipesController < ApplicationController
   
   def like
     #We want to know to which recipe we'll send LIKE/DISLILKE. So we'll find it by the sent parameter of ID
-    @recipe = Recipe.find(params[:id])
+    #before action
     #We want to create like for the parameter the user he selected. TRUE/FALSE of "LIKE" in the table can be found by the "LIKE" parameter from URL
-    like = Like.create(like: params[:like], chef: Chef.first, recipe: @recipe)
+    like = Like.create(like: params[:like], chef: current_user, recipe: @recipe)
     if like.valid?
      flash[:success] = "Your selection was successful"
      #We want to redirect the user in the same directory he is currently in
@@ -74,6 +79,19 @@ class RecipesController < ApplicationController
     def recipe_params
       params.require(:recipe).permit(:name, :summary, :description, :picture)
     end
-      
-  
+    
+    #The order if this method must be her because we will not be able to call REQUIRE_SAME_USER method before calling SET_RECIPES method since it sets @RECIPE varaible which will be used by REQUIRE_SAME_USER method
+    #So the order of methods is very important
+    def set_recipe
+      #We should define this line for SHOW, EDIT, UPDATE, and LIKE, but we will call it from this method using BEFORE_ACTION at the beginning of this controller
+      @recipe = Recipe.find(params[:id])
+    end
+    
+    def require_same_user
+      if current_user != @recipe.chef
+        flash[:danger] = "You can only edit your own recipes"
+        redirect_to recipes_path
+      end
+    end
+
 end

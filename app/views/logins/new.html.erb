@@ -1,0 +1,14 @@
+<%= render 'shared/page_title', title: 'log in' %>
+
+<div class="row">
+  <div class="well col-md-6 col-md-offset-3">
+    <!-- Since this is a login form, it will need to go to a path. So we do not use "FOR_FOR" but "FORM_TAG" and we define the route to should submit info to (LOGIN) in our case -->
+    <%= form_tag '/login' do %>
+     <%= label_tag :email %>
+     <%= text_field_tag :email %>
+     <%= label_tag :password %>
+     <%= password_field_tag :password %>
+     <%= submit_tag 'login', class: 'btn btn-success' %>
+    <% end %>
+  </div>
+</div>

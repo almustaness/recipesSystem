@@ -27,4 +27,16 @@ Rails.application.routes.draw do
       post 'like'
     end
   end
+  
+  #We need to provide custome "NEW" route for chefs because it is "REGISTER" not "NEW"
+  resources :chefs, except: [:new]
+  get '/register', to: 'chefs#new'
+  
+  #Here we'll define routes for log in/log out. Our controller's name will be "LOGINS"
+  #We need a route for crating a new session
+  get '/login', to: 'logins#new'
+  #Then we need a post route to post the new, created session to it
+  post '/login', to: 'logins#create'
+  #And then we need a third route for destroying the session
+  get '/logout', to: 'logins#destroy'
 end

@@ -12,4 +12,7 @@ class Chef < ActiveRecord::Base
   validates :email, presence: true, uniqueness: {case_sensitive:false},
   #Here we call the variable which tests email format
   format: {with: VALID_EMAIL_REGEX}
+  
+  #We'll add this line for authentication system
+  has_secure_password
 end
