@@ -10,9 +10,15 @@ class PictureUploader < CarrierWave::Uploader::Base
   # We have uncommented this line
   include CarrierWave::MiniMagick
 
-  # Choose what kind of storage to use for this uploader:
+  #We want to specify a sorage to be used based on current enviroment.
+  #We will use AMAZON S3 STORGAE for PRODUCTION ENVIROMENT but for other enviroments we'll use LOCAL STORAGE. SO this is the code
+  if Rails.env.production?
+    #FOG is for production
+    #Remember we will set a file called in CARRIER_WAVE and CONFIG > INITIALIZERS & this file will include AMAZON S3 CONFIGURATIONS
+    storage :fog
+  else
   storage :file
-  # storage :fog
+  end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
