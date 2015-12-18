@@ -15,7 +15,8 @@
     <% if logged_in? && (@recipe.chef == current_user || current_user.admin?) %>
       <%= link_to "Edit this recipe", edit_recipe_path(@recipe), class: "btn btn-success pull-right" %>
     <% end %>
-    <% if current_user.admin? %>
+    <!-- BE CAREFULL AS "CURRENT_USER.ADMIN" ALONE CANNOT GENERATE BOOLEAN  WHEN THE USER IS NOT LOGGED IN. SO IF NO BOOLEAN IS GENERATED THE APPLICATION WILL GIVE AN ERROR. THAT IS WHY WE ADDED BOTH (LOGGED_IN AND CURRENT_USER.ADMIN)-->
+    <% if logged_in? and current_user.admin? %>
       <!-- Since we are deleting, we have to specify the method DESTROY because the default method in rails is GET and rails will think we want to perform GET action -->
       <!-- we added JavaScript code here for confirmation -->
       <%= link_to "[Delete]", @recipe, method: :delete, data: {confirm: "Are you sure you want to delete this recipe"} %>
