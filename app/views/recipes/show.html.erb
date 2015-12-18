@@ -11,8 +11,14 @@
   </div>
   
   <div class="col-md-8">
-    <% if logged_in? && @recipe.chef == current_user %>
+    <!-- We want EDIT BUTTON for editing recipes to appear for the owner of the recipe as well as for the admin -->
+    <% if logged_in? && (@recipe.chef == current_user || current_user.admin?) %>
       <%= link_to "Edit this recipe", edit_recipe_path(@recipe), class: "btn btn-success pull-right" %>
+    <% end %>
+    <% if current_user.admin? %>
+      <!-- Since we are deleting, we have to specify the method DESTROY because the default method in rails is GET and rails will think we want to perform GET action -->
+      <!-- we added JavaScript code here for confirmation -->
+      <%= link_to "[Delete]", @recipe, method: :delete, data: {confirm: "Are you sure you want to delete this recipe"} %>
     <% end %>
     <h3><%= @recipe.summary %></h3>
     <div class="show_recipe">

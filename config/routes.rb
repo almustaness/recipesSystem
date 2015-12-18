@@ -28,8 +28,8 @@ Rails.application.routes.draw do
     end
   end
   
-  #We need to provide custome "NEW" route for chefs because it is "REGISTER" not "NEW"
-  resources :chefs, except: [:new]
+  #We need to provide custome "NEW" route for chefs because it is "REGISTER" not "NEW". Also we do not want to allow removing any Chef
+  resources :chefs, except: [:new, :destroy]
   get '/register', to: 'chefs#new'
   
   #Here we'll define routes for log in/log out. Our controller's name will be "LOGINS"

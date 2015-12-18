@@ -5,13 +5,14 @@ class Recipe < ActiveRecord::Base
     #In this line we create a relationship one-to-many between Recipes & Chefs
     #Recipe is a single object which belongs to a single object (Chef). So "chef" is written as singular. Let us see how it is written in Chef Model
     belongs_to :chef
-    has_many :likes
+    #We want all ASSOCIATED LIKES to a recipe to be deleted once we delete that recipe. So we use :DEPANDANT to do that
+    has_many :likes, dependent: :destroy
     #This is realted to MANY-TO-MANY Relationship
-    has_many :recipe_styles
+    has_many :recipe_styles , dependent: :destroy
     #Here we create many to many relationship using JOIN table called RECIPE_STYLES
     has_many :styles, through: :recipe_styles
     #This is realted to MANY-TO-MANY Relationship
-    has_many :recipe_ingredients
+    has_many :recipe_ingredients , dependent: :destroy
     #Here we create many to many relationship using JOIN table called RECIPE_INGREDIENTS
     has_many :ingredients, through: :recipe_ingredients
     # Recipe's name must be inserted and its length should be between 5 and 105

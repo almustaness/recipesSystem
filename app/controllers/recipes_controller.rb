@@ -1,11 +1,14 @@
 #The name of the file of this controller is named with undescore. But the class of this controller should be Camel Case.
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [:edit, :show, :like, :update]
+  #For this method we should check if the user is an ADMIN
   before_action :require_same_user, only: [:edit, :update]
   #We want to restrict the user from performing any information manipulation if he is not logged in. But we want to allow him to see the content of our system.
   #REQUIRE_USER method will be defined in APPLICATION CONTROLLER since we will need to use it in other conrollers.
   before_action :require_user, except: [:index, :show, :like]
   before_action :require_user_like, only: [:like]
+  #We only want ADMINs to be able to DELETE recipes
+  before_action :admin_user, only: :destroy
   #We define index action here
   def index
     #We want to retrieve data from the database and pass these data to the "INDEX VIEW". We'll do using this variable
@@ -58,6 +61,12 @@ class RecipesController < ApplicationController
     end
   end
   
+  def destroy
+    Recipe.find(params[:id]).destroy
+    flash[:success] = "The recipe has been deleted successfully"
+    redirect_to recipes_path
+  end
+  
   def like
     #We want to know to which recipe we'll send LIKE/DISLILKE. So we'll find it by the sent parameter of ID
     #before action
@@ -89,7 +98,8 @@ class RecipesController < ApplicationController
     end
     
     def require_same_user
-      if current_user != @recipe.chef
+      #We should take care about ADMINs because they are not the owner of the recipe they are going to edit. So we'll solve this issue in IF STATMENT
+      if current_user != @recipe.chef and !current_user.admin?
         flash[:danger] = "You can only edit your own recipes"
         redirect_to recipes_path
       end
@@ -102,5 +112,8 @@ class RecipesController < ApplicationController
         redirect_to :back
       end
     end
-
+    
+    def admin_user
+      redirect_to recipes_path unless current_user.admin?
+    end
 end
