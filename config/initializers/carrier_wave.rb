@@ -1,4 +1,5 @@
 #This file includes AMAZON S3 Configurations
+
 if Rails.env.production?
   CarrierWave.configure do |config|
     config.fog_credentials = {

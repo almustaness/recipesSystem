@@ -15,7 +15,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   if Rails.env.production?
     #FOG is for production
     #Remember we will set a file called in CARRIER_WAVE and CONFIG > INITIALIZERS & this file will include AMAZON S3 CONFIGURATIONS
-    storage :fog
+  storage :fog
   else
   storage :file
   end

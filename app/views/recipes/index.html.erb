@@ -38,8 +38,13 @@
    <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
    <p><%= recipe.summary %></p>
    <!-- here we want to show ingredients & styles related to the recipe. So we need to render them using a partial form calling them from INGREDIENTS & STYLES directories -->
-   <p>Styles: <%= render recipe.styles %></p>
-   <p>Ingredients: <%= render recipe.ingredients %></p>
+   <!-- We want to show this only if the recipe has styles or ingredients -->
+   <% if recipe.styles.any? %>
+    <p>Styles: <%= render recipe.styles %></p>
+   <% end %>
+   <%if recipe.ingredients.any? %>
+    <p>Ingredients: <%= render recipe.ingredients %></p>
+   <% end %>
    <P>
      <!-- we need the date to appear with user-friendly format. So we will use a method (time_ago_in_words) -->
      <span class="quiet"><small>Created: <%= time_ago_in_words(recipe.created_at) %>  &nbsp |  </small></span>
