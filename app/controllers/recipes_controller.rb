@@ -4,8 +4,8 @@ class RecipesController < ApplicationController
   before_action :require_same_user, only: [:edit, :update]
   #We want to restrict the user from performing any information manipulation if he is not logged in. But we want to allow him to see the content of our system.
   #REQUIRE_USER method will be defined in APPLICATION CONTROLLER since we will need to use it in other conrollers.
-  before_action :require_user, except: [:index, :show]
-  
+  before_action :require_user, except: [:index, :show, :like]
+  before_action :require_user_like, only: [:like]
   #We define index action here
   def index
     #We want to retrieve data from the database and pass these data to the "INDEX VIEW". We'll do using this variable
@@ -77,7 +77,8 @@ class RecipesController < ApplicationController
   #PRIVATE METHODS are available only inside this class (Controller Class)
   private
     def recipe_params
-      params.require(:recipe).permit(:name, :summary, :description, :picture)
+      #We also are going to white list INGEDIENTS & STYLES which are arrays from the checkboxes we created in their views.
+      params.require(:recipe).permit(:name, :summary, :description, :picture, style_ids:[], ingredient_ids:[])
     end
     
     #The order if this method must be her because we will not be able to call REQUIRE_SAME_USER method before calling SET_RECIPES method since it sets @RECIPE varaible which will be used by REQUIRE_SAME_USER method
@@ -91,6 +92,14 @@ class RecipesController < ApplicationController
       if current_user != @recipe.chef
         flash[:danger] = "You can only edit your own recipes"
         redirect_to recipes_path
+      end
+    end
+    
+    #It is not good to rediect the user to home page if he is not logged in. So we'll use this method only for LIKE function
+    def require_user_like
+      if !logged_in?
+        flash[:danger] = "You have to be logged in to perform this action"
+        redirect_to :back
       end
     end
 

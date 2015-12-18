@@ -20,7 +20,7 @@ gem 'bootstrap-will_paginate', '~>0.0.10'
 # This gem is for authentication
 gem 'bcrypt', '3.1.7'
 #This gem is for handling files for production enviroment
-gem 'fog', '1.23.0'
+#gem 'fog', '1.23.0'
 group :development, :test do
   gem 'byebug'
 end

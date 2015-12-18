@@ -1,7 +1,5 @@
-<!-- This is the view for the action "INDEX" which came from "RecipesController" -->
-<!-- All views for "RecipesController" must be put inside "RECIPES" folder then each view will have its own file. The name of this folder derived from Controller's Name -->
-<!-- The extension of view file shoulb be "HTML.ERB" which means embedded ruby in an HTML file -->
-<%= render "shared/page_title", title:"All Recipes" %>
+
+<%= render "shared/page_title", title: "Recipes for : " + @style.name + " food" %>
 
 
 <ul class="nav nav-tabs">
@@ -13,20 +11,14 @@
   </li>
 </ul>
 
-
-<!-- @RECIPES is called from RECIPES CONTROLLER -->
-<!-- Do not use "=" in ruby opening tag in the loop -->
-<!-- This is for pagination related to "PGINATION GEM". -->
-<%= will_paginate %>
-<% @recipes.each do |recipe| %>
+<%= will_paginate @recipes %>
+<% @style.recipes.each do |recipe| %>
 
 <div class="row">
   
   <div class="col-md-2">
     
     <section class="chef_info center">
-      <!-- Here we created a method(GRAVATAR_FOR). We will define it for our project inside "APPLICATION_HELPR" -->
-      <!--This method receives 2 arguments (CHEF, SIZE) passed to it -->
       <%= link_to (gravatar_for recipe.chef, size:100), chef_path(recipe.chef) %>
       <h5>Chef name: <%= recipe.chef.chefname %></h5>
       
@@ -34,14 +26,11 @@
   </div>
   
   <div class="col-lg-6 well">
-   <!-- Here we want each recipe to be linked to its own page. To do that we use the method "RECIPE_PATH(OBJECT)". The object of the recipe we get it from the loop's iterator which is "RECIPE" in our loop. -->
    <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
    <p><%= recipe.summary %></p>
-   <!-- here we want to show ingredients & styles related to the recipe. So we need to render them using a partial form calling them from INGREDIENTS & STYLES directories -->
    <p>Styles: <%= render recipe.styles %></p>
    <p>Ingredients: <%= render recipe.ingredients %></p>
    <P>
-     <!-- we need the date to appear with user-friendly format. So we will use a method (time_ago_in_words) -->
      <span class="quiet"><small>Created: <%= time_ago_in_words(recipe.created_at) %>  &nbsp |  </small></span>
      <span class="quiet"><small>  &nbsp Updated: <%= time_ago_in_words(recipe.updated_at) %></small></span>
    </P>
@@ -63,5 +52,4 @@
 <hr/>
 
 <% end %>
-<!-- Also at the bottom we need pages number -->
-<%= will_paginate %>
+<%= will_paginate @recipes %>

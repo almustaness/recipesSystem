@@ -6,6 +6,14 @@ class Recipe < ActiveRecord::Base
     #Recipe is a single object which belongs to a single object (Chef). So "chef" is written as singular. Let us see how it is written in Chef Model
     belongs_to :chef
     has_many :likes
+    #This is realted to MANY-TO-MANY Relationship
+    has_many :recipe_styles
+    #Here we create many to many relationship using JOIN table called RECIPE_STYLES
+    has_many :styles, through: :recipe_styles
+    #This is realted to MANY-TO-MANY Relationship
+    has_many :recipe_ingredients
+    #Here we create many to many relationship using JOIN table called RECIPE_INGREDIENTS
+    has_many :ingredients, through: :recipe_ingredients
     # Recipe's name must be inserted and its length should be between 5 and 105
     validates :name, presence: true, length: {minimum:5, maximum: 105}
     validates :summary, presence: true, length: {minimum:10, maximum: 150}

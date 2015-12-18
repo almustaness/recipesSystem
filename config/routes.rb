@@ -39,4 +39,8 @@ Rails.application.routes.draw do
   post '/login', to: 'logins#create'
   #And then we need a third route for destroying the session
   get '/logout', to: 'logins#destroy'
+  
+  #We want to build routes for STYLES but onl we'll specify specific actions. We'll also do it like that for INGREDIENTS
+  resources :styles, only: [:new, :create, :show]
+  resources :ingredients, only: [:new, :create, :show]
 end
